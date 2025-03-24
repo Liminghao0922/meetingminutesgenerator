@@ -1,0 +1,25 @@
+from llama_cpp import Llama
+
+def optimize_text_with_deepseek(raw_text, model_path, prompt="",status_callback=None):
+    llm = Llama(model_path=model_path, n_ctx=2048, n_gpu_layers=10)
+    
+    prompt = f"""
+    以下の会議の転写結果を自然で正式な日本語に整理し、会議記録として適切な形式にしてください。
+    - [Speaker_XX]タグを基に発言者を明確に帰属（例: 山田、佐藤）
+    - 誤字や文法ミスを修正、特に以下の專業術語を正確にしてください：
+      - 変連、 仕様書、 人工知能、機械学習、ディープラーニング、クラウドコンピューティング、API、ブロックチェーン
+    - 内容を「議題」「結論」「アクションアイテム」に分類
+    - 不要な繰り返しや口語表現を削除
+
+    転写結果:
+    {raw_text}
+
+    出力形式例:
+    ### 議題1: XXX
+    - 内容: 山田: ... / 佐藤: ...
+    - 結論: ...
+    - アクションアイテム: ...
+    """
+    
+    response = llm(prompt, max_tokens=32768, temperature=0.6, top_p=0.9)
+    return response["choices"][0]["text"].strip()

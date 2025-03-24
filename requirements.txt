@@ -1,0 +1,16 @@
+streamlit
+git+https://github.com/openai/whisper.git
+python-docx
+pyannote.audio
+torch
+torchvision
+torchaudio
+transformers==4.48.2
+accelerate
+safetensors
+noisereduce
+numpy
+soundfile
+scipy
+matplotlib
+jiwer
